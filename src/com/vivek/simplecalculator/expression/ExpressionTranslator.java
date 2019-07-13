@@ -16,16 +16,18 @@
 package com.vivek.simplecalculator.expression;
 
 import com.vivek.simplecalculator.operation.ArithmeticOperation;
-import com.vivek.simplecalculator.tokenizer.Tokenizer;
 import com.vivek.simplecalculator.tokenizer.Token;
 import com.vivek.simplecalculator.tokenizer.TokenType;
+import com.vivek.simplecalculator.tokenizer.Tokenizer;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
-public class ExpressionTranslator {
+class ExpressionTranslator {
 
 
-    public static Token[] convertInfixToPostfix(final String expression){
+    static Token[] convertInfixToPostfix(final String expression) {
         final Stack<Token> stack = new Stack<>();
         final List<Token> output = new ArrayList<>();
 
@@ -49,7 +51,7 @@ public class ExpressionTranslator {
                         } else if ((operation1.isLeftAssociative() && operation1.getPrecedence() <= operation2.getPrecedence())
                                 || (operation1.getPrecedence() < operation2.getPrecedence())) {
                             output.add(stack.pop());
-                        }else {
+                        } else {
                             break;
                         }
                     }
@@ -62,7 +64,7 @@ public class ExpressionTranslator {
                     while (!stack.isEmpty() && stack.peek().getType() != TokenType.LEFT_BRACKET) {
                         output.add(stack.pop());
                     }
-                    if(stack.isEmpty()){
+                    if (stack.isEmpty()) {
                         throw new IllegalArgumentException("Mismatch in brackets");
                     }
                     if (stack.peek().getType() == TokenType.FUNCTION) {
@@ -70,7 +72,7 @@ public class ExpressionTranslator {
                     }
                     break;
                 default:
-                    throw new IllegalArgumentException("Unrecognized token: "+token.getValue());
+                    throw new IllegalArgumentException("Unrecognized token: " + token.getValue());
             }
         }
 

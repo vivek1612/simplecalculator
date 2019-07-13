@@ -4,5 +4,5 @@ public interface Operation {
 
     int getNumOperands();
 
-    double apply(double ... operands);
+    double apply(double... operands);
 }

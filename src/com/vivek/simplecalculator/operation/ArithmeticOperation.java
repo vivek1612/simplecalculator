@@ -5,11 +5,11 @@ import java.util.function.DoubleBinaryOperator;
 public enum ArithmeticOperation implements Operation {
 
     ADD('+', 1, true, 2, Double::sum),
-    SUBTRACT('-', 1, true, 2, (a, b)-> a - b),
-    MULTIPLY('*', 2, true, 2, (a, b)-> a * b),
-    DIVIDE('/',2,true, 2, (a, b)-> a / b),
-    MODULUS('%',2, true, 2, (a, b)-> a % b),
-    POWER('^',3,false, 2, Math::pow);
+    SUBTRACT('-', 1, true, 2, (a, b) -> a - b),
+    MULTIPLY('*', 2, true, 2, (a, b) -> a * b),
+    DIVIDE('/', 2, true, 2, (a, b) -> a / b),
+    MODULUS('%', 2, true, 2, (a, b) -> a % b),
+    POWER('^', 3, false, 2, Math::pow);
 
     private final DoubleBinaryOperator operator;
     private final char symbol;
@@ -23,6 +23,26 @@ public enum ArithmeticOperation implements Operation {
         this.precedence = precedence;
         this.leftAssociative = leftAssociative;
         this.numOperands = numOperands;
+    }
+
+    public static boolean isSupported(char symbol) {
+        ArithmeticOperation[] operations = ArithmeticOperation.values();
+        for (ArithmeticOperation operation : operations) {
+            if (symbol == operation.symbol) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    public static ArithmeticOperation getForSymbol(char symbol) {
+        ArithmeticOperation[] operations = ArithmeticOperation.values();
+        for (ArithmeticOperation operation : operations) {
+            if (symbol == operation.symbol) {
+                return operation;
+            }
+        }
+        throw new UnsupportedOperationException("no operator found for symbol: " + symbol);
     }
 
     public char getSymbol() {
@@ -40,26 +60,6 @@ public enum ArithmeticOperation implements Operation {
     @Override
     public int getNumOperands() {
         return numOperands;
-    }
-
-    public static boolean isSupported(char symbol){
-        ArithmeticOperation[] operations = ArithmeticOperation.values();
-        for (ArithmeticOperation operation : operations) {
-            if (symbol == operation.symbol) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-    public static ArithmeticOperation getForSymbol(char symbol){
-        ArithmeticOperation[] operations = ArithmeticOperation.values();
-        for (ArithmeticOperation operation : operations) {
-            if (symbol == operation.symbol) {
-                return operation;
-            }
-        }
-        throw new UnsupportedOperationException("no operator found for symbol: "+symbol);
     }
 
     @Override

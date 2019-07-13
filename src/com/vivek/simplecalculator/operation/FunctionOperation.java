@@ -18,7 +18,7 @@ public enum FunctionOperation implements Operation {
         this.name = name;
     }
 
-    public static boolean isSupported(String name){
+    public static boolean isSupported(String name) {
         FunctionOperation[] functions = FunctionOperation.values();
         for (FunctionOperation function : functions) {
             if (name.equals(function.name)) {
@@ -28,14 +28,14 @@ public enum FunctionOperation implements Operation {
         return false;
     }
 
-    public static FunctionOperation getForName(String name){
+    public static FunctionOperation getForName(String name) {
         FunctionOperation[] functions = FunctionOperation.values();
         for (FunctionOperation function : functions) {
             if (name.equals(function.name)) {
                 return function;
             }
         }
-        throw new UnsupportedOperationException("no function found for name: "+name);
+        throw new UnsupportedOperationException("no function found for name: " + name);
     }
 
     @Override
