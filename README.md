@@ -2,7 +2,9 @@
 # Supported operations: 
 #                    add(+), subtract(-), divide(/), multiply(*), modulus(%), power(^)
 # Supported functions: 
-#                    sine(sin), cosine(cos), tan, log;
+#                    sine(sin), cosine(cos), tan, log
+# Known issues:
+#   1. No support for negation operator (unary minus). As a work-around, use `0 - n` instead of `-n`. For example, instead of `-2^2`, use `(0-2)^2`
 # Implementation outline:
 #   1. Accept input from command prompt, in in-fix notation
 #   2. Parse input into tokens
