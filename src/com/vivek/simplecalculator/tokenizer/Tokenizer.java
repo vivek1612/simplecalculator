@@ -115,7 +115,7 @@ public class Tokenizer {
         try {
             Double.parseDouble(value);
         } catch (NumberFormatException e) {
-            throw new RuntimeException("error at " + offset, e);
+            throw new RuntimeException("invalid expression. pos: " + offset, e);
         }
         last = new Token(TokenType.NUMBER, value);
         return last;
