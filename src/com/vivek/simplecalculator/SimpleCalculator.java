@@ -27,6 +27,7 @@ public class SimpleCalculator {
             System.out.print(CMD_PROMT);
             input = scanner.nextLine();
             if (input.equalsIgnoreCase(CMD_QUIT)) {
+                scanner.close();
                 System.exit(0);
             } else if (input.equalsIgnoreCase(CMD_HELP)) {
                 System.out.println(HELP_MSSG);
