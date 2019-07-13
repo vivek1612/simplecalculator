@@ -21,12 +21,9 @@ import com.vivek.simplecalculator.operation.FunctionOperation;
 public class Tokenizer {
 
     private final char[] expression;
-
     private final int expressionLength;
-
     private int pos = 0;
-
-    private Token lastToken;
+    private Token last;
 
 
     public Tokenizer(String expression) {
@@ -44,8 +41,8 @@ public class Tokenizer {
             ch = expression[++pos];
         }
         if (Character.isDigit(ch) || ch == '.') {
-            if (lastToken != null) {
-                if (lastToken.getType() == TokenType.NUMBER) {
+            if (last != null) {
+                if (last.getType() == TokenType.NUMBER) {
                     throw new IllegalArgumentException("invalid expression. pos:  "+pos);
                 }
             }
@@ -54,8 +51,8 @@ public class Tokenizer {
             return parseParentheses(ch);
         } else if (ArithmeticOperation.isSupported(ch)) {
             pos++;
-            lastToken = new Token(TokenType.OPERATOR, Character.toString(ch));
-            return lastToken;
+            last = new Token(TokenType.OPERATOR, Character.toString(ch));
+            return last;
         } else if (Character.isLetter(ch)) {
             return parseFunction();
         }
@@ -64,12 +61,12 @@ public class Tokenizer {
 
     private Token parseParentheses(final char ch) {
         if (ch == '(') {
-            this.lastToken = new Token(TokenType.LEFT_BRACKET, "(");
+            this.last = new Token(TokenType.LEFT_BRACKET, "(");
         } else {
-            this.lastToken = new Token(TokenType.RIGHT_BRACKET, ")");
+            this.last = new Token(TokenType.RIGHT_BRACKET, ")");
         }
         this.pos++;
-        return lastToken;
+        return last;
     }
 
     private Token parseFunction() {
@@ -96,8 +93,8 @@ public class Tokenizer {
             throw new RuntimeException("invalid expression. " + "pos: " + pos);
         }
         pos += lastValidLen;
-        lastToken = lastValidToken;
-        return lastToken;
+        last = lastValidToken;
+        return last;
     }
 
     private Token parseNumber(final char firstChar) {
@@ -105,8 +102,8 @@ public class Tokenizer {
         int len = 1;
         this.pos++;
         if (isEndOfExpression(offset + len)) {
-            lastToken = new Token(TokenType.NUMBER, (String.valueOf(firstChar)));
-            return lastToken;
+            last = new Token(TokenType.NUMBER, (String.valueOf(firstChar)));
+            return last;
         }
         while (!isEndOfExpression(offset + len) &&
                 (Character.isDigit(expression[offset + len]) || expression[offset + len] == '.')) {
@@ -120,8 +117,8 @@ public class Tokenizer {
         } catch (NumberFormatException e) {
             throw new RuntimeException("error at " + offset, e);
         }
-        lastToken = new Token(TokenType.NUMBER, value);
-        return lastToken;
+        last = new Token(TokenType.NUMBER, value);
+        return last;
     }
 
     private boolean isEndOfExpression(int offset) {
