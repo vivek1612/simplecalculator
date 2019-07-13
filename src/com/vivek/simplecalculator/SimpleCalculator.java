@@ -9,6 +9,7 @@ public class SimpleCalculator {
 
 
     private static final String QUIT = "quit";
+    private static final String PROMT = ">";
     private static final String HELP = "help";
     private static final String HELP_MSSG =
             "Supported operations: add(+), subtract(-), " +
@@ -23,7 +24,7 @@ public class SimpleCalculator {
         String input;
         Scanner scanner = new Scanner(new InputStreamReader(System.in));
         do {
-            System.out.print(">");
+            System.out.print(PROMT);
             input = scanner.nextLine();
             if (input.equalsIgnoreCase(QUIT)) {
                 System.exit(0);
