@@ -6,6 +6,7 @@ import com.vivek.simplecalculator.operation.Operation;
 import com.vivek.simplecalculator.tokenizer.Token;
 import com.vivek.simplecalculator.tokenizer.TokenType;
 
+import java.util.EmptyStackException;
 import java.util.Stack;
 
 class BinaryExpressionTree {
@@ -34,8 +35,14 @@ class BinaryExpressionTree {
                 if (operation.getNumOperands() == 1) {
                     opTree = new BinaryExpressionTree(0, operation, stack.pop(), null);
                 } else {
-                    BinaryExpressionTree right = stack.pop();
-                    BinaryExpressionTree left = stack.pop();
+                    BinaryExpressionTree right;
+                    BinaryExpressionTree left;
+                    try {
+                        right = stack.pop();
+                        left = stack.pop();
+                    } catch (EmptyStackException e) {
+                        throw new RuntimeException("invalid expression", e);
+                    }
                     opTree = new BinaryExpressionTree(0, operation, left, right);
                 }
                 stack.push(opTree);

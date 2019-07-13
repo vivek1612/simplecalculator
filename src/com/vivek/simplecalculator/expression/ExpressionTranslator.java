@@ -67,7 +67,8 @@ class ExpressionTranslator {
                     if (stack.isEmpty()) {
                         throw new IllegalArgumentException("Mismatch in brackets");
                     }
-                    if (stack.peek().getType() == TokenType.FUNCTION) {
+                    stack.pop();
+                    if (!stack.isEmpty() && stack.peek().getType() == TokenType.FUNCTION) {
                         output.add(stack.pop());
                     }
                     break;
