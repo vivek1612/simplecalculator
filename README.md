@@ -1,4 +1,4 @@
-# Simple command line calculator. Supports arithmetic expression, including operators, functions and parentheses.
+# Simple command line calculator. Supports arithmetic expressions, including operators, functions and parentheses.
 # Supported operations: 
 #                    add(+), subtract(-), divide(/), multiply(*), modulus(%), power(^)
 # Supported functions: 
