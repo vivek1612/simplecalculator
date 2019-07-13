@@ -33,7 +33,7 @@ class ExpressionTranslator {
 
         final Tokenizer tokenizer = new Tokenizer(expression);
         while (tokenizer.hasNext()) {
-            Token token = tokenizer.nextToken();
+            Token token = tokenizer.next();
             switch (token.getType()) {
                 case NUMBER:
                     output.add(token);

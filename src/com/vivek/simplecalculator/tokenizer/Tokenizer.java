@@ -38,7 +38,7 @@ public class Tokenizer {
         return this.expression.length > pos;
     }
 
-    public Token nextToken() {
+    public Token next() {
         char ch = expression[pos];
         while (Character.isWhitespace(ch)) {
             ch = expression[++pos];
@@ -49,7 +49,7 @@ public class Tokenizer {
                     throw new IllegalArgumentException("invalid expression. pos:  "+pos);
                 }
             }
-            return parseNumberToken(ch);
+            return parseNumber(ch);
         } else if (ch == '(' || ch == ')') {
             return parseParentheses(ch);
         } else if (ArithmeticOperation.isSupported(ch)) {
@@ -100,7 +100,7 @@ public class Tokenizer {
         return lastToken;
     }
 
-    private Token parseNumberToken(final char firstChar) {
+    private Token parseNumber(final char firstChar) {
         final int offset = this.pos;
         int len = 1;
         this.pos++;
