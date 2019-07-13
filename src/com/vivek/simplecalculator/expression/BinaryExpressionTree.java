@@ -8,40 +8,40 @@ import com.vivek.simplecalculator.tokenizer.TokenType;
 
 import java.util.Stack;
 
-class ExpressionTree {
+class BinaryExpressionTree {
 
     private final double operand;
     private final Operation operation;
-    private final ExpressionTree left, right;
+    private final BinaryExpressionTree left, right;
 
-    private ExpressionTree(double operand, Operation operation,
-                           ExpressionTree left, ExpressionTree right) {
+    private BinaryExpressionTree(double operand, Operation operation,
+                                 BinaryExpressionTree left, BinaryExpressionTree right) {
         this.operand = operand;
         this.operation = operation;
         this.right = right;
         this.left = left;
     }
 
-    static ExpressionTree from(Token[] tokens) {
-        Stack<ExpressionTree> stack = new Stack<>();
+    static BinaryExpressionTree from(Token[] tokens) {
+        Stack<BinaryExpressionTree> stack = new Stack<>();
         for (Token token : tokens) {
             if (token.getType() == TokenType.NUMBER) {
-                ExpressionTree numberTree = new ExpressionTree(Double.parseDouble(token.getValue()), null, null, null);
+                BinaryExpressionTree numberTree = new BinaryExpressionTree(Double.parseDouble(token.getValue()), null, null, null);
                 stack.push(numberTree);
             } else if (token.getType() == TokenType.OPERATOR) {
                 ArithmeticOperation operation = ArithmeticOperation.getForSymbol(token.getValue().charAt(0));
-                ExpressionTree opTree;
+                BinaryExpressionTree opTree;
                 if (operation.getNumOperands() == 1) {
-                    opTree = new ExpressionTree(0, operation, stack.pop(), null);
+                    opTree = new BinaryExpressionTree(0, operation, stack.pop(), null);
                 } else {
-                    ExpressionTree right = stack.pop();
-                    ExpressionTree left = stack.pop();
-                    opTree = new ExpressionTree(0, operation, left, right);
+                    BinaryExpressionTree right = stack.pop();
+                    BinaryExpressionTree left = stack.pop();
+                    opTree = new BinaryExpressionTree(0, operation, left, right);
                 }
                 stack.push(opTree);
             } else if (token.getType() == TokenType.FUNCTION) {
                 FunctionOperation func = FunctionOperation.getForName(token.getValue());
-                ExpressionTree funcTree = new ExpressionTree(0, func, stack.pop(), null);
+                BinaryExpressionTree funcTree = new BinaryExpressionTree(0, func, stack.pop(), null);
                 stack.push(funcTree);
             } else {
                 throw new RuntimeException("invalid token: " + token);

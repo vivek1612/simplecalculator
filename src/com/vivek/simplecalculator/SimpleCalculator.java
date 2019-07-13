@@ -8,6 +8,8 @@ import java.util.Scanner;
 public class SimpleCalculator {
 
 
+    private static final String QUIT = "quit";
+    private static final String HELP = "help";
     private static final String HELP_MSSG =
             "Supported operations: add(+), subtract(-), " +
                     "divide(/), multiply(*), modulus(%), power(^)\n" +
@@ -23,9 +25,9 @@ public class SimpleCalculator {
         do {
             System.out.print(">");
             input = scanner.nextLine();
-            if (input.equalsIgnoreCase("quit")) {
+            if (input.equalsIgnoreCase(QUIT)) {
                 System.exit(0);
-            } else if (input.equalsIgnoreCase("help")) {
+            } else if (input.equalsIgnoreCase(HELP)) {
                 System.out.println(HELP_MSSG);
                 continue;
             }

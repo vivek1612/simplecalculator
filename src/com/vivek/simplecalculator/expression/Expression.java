@@ -5,7 +5,7 @@ import com.vivek.simplecalculator.tokenizer.Token;
 public class Expression {
 
     private final String expression;
-    private ExpressionTree expTree;
+    private BinaryExpressionTree expTree;
     private Double value;
 
     public Expression(String expression) {
@@ -17,7 +17,7 @@ public class Expression {
             synchronized (Expression.class) {
                 if (value == null) {
                     Token[] tokens = ExpressionTranslator.convertInfixToPostfix(expression);
-                    expTree = ExpressionTree.from(tokens);
+                    expTree = BinaryExpressionTree.from(tokens);
                     value = expTree.evaluate();
                 }
             }
