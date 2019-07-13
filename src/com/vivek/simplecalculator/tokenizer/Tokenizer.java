@@ -46,7 +46,7 @@ public class Tokenizer {
         if (Character.isDigit(ch) || ch == '.') {
             if (lastToken != null) {
                 if (lastToken.getType() == TokenType.NUMBER) {
-                    throw new IllegalArgumentException("Unable to parse char '" + ch + "' (Code:" + (int) ch + ") at [" + pos + "]");
+                    throw new IllegalArgumentException("invalid expression. pos:  "+pos);
                 }
             }
             return parseNumberToken(ch);
@@ -59,7 +59,7 @@ public class Tokenizer {
         } else if (Character.isLetter(ch)) {
             return parseFunction();
         }
-        throw new IllegalArgumentException("Unable to parse char '" + ch + "' (Code:" + (int) ch + ") at [" + pos + "]");
+        throw new IllegalArgumentException("invalid expression. pos:  "+pos);
     }
 
     private Token parseParentheses(final char ch) {
@@ -93,7 +93,7 @@ public class Tokenizer {
             testPos = offset + len - 1;
         }
         if (lastValidToken == null) {
-            throw new RuntimeException(new String(expression) + "pos: " + pos + " len:" + len);
+            throw new RuntimeException("invalid expression. " + "pos: " + pos);
         }
         pos += lastValidLen;
         lastToken = lastValidToken;
