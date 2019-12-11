@@ -26,10 +26,8 @@ public class Tokenizer {
             ch = expression[++pos];
         }
         if (Character.isDigit(ch) || ch == '.') {
-            if (last != null) {
-                if (last.getType() == TokenType.NUMBER) {
-                    throw new IllegalArgumentException("invalid expression. pos:  "+pos);
-                }
+            if (last != null && last.getType() == TokenType.NUMBER) {
+                throw new IllegalArgumentException("invalid expression. pos:  " + pos);
             }
             return parseNumber(ch);
         } else if (ch == '(' || ch == ')') {

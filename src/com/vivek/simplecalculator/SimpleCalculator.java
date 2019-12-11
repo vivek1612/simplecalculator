@@ -16,7 +16,8 @@ public class SimpleCalculator {
                     "divide(/), multiply(*), modulus(%), power(^)\n" +
                     "Supported functions: sine(sin), cosine(cos), tan, log\n";
     private static final String INIT_MSSG =
-            "Type expression to evaluate. Type \"help\" for help.  Type \"quit\" to exit";
+            "Type expression to getValue. Type \"help\" for help.  Type \"quit\" to exit";
+    private static final SimpleCalculator calc = new SimpleCalculator();
 
     public static void main(String[] args) {
 
@@ -34,10 +35,10 @@ public class SimpleCalculator {
                 continue;
             }
             try {
-                double result = new SimpleCalculator().calculate(input);
+                double result = calc.calculate(input);
                 System.out.println(result);
             } catch (Exception e) {
-                System.err.println(e.getMessage());
+                e.printStackTrace();
             }
 
         } while (true);
@@ -45,7 +46,7 @@ public class SimpleCalculator {
 
     private double calculate(String input) {
         Expression exp = new Expression(input);
-        return exp.evaluate();
+        return exp.getValue();
     }
 }
 

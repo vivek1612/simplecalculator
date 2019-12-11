@@ -2,25 +2,26 @@ package com.vivek.simplecalculator.expression;
 
 import com.vivek.simplecalculator.tokenizer.Token;
 
+import java.util.concurrent.atomic.AtomicReference;
+
 public class Expression {
 
-    private final String expression;
-    private Double value;
+    private final String expr;
+    private final AtomicReference<Double> value = new AtomicReference<>();
 
-    public Expression(String expression) {
-        this.expression = expression;
+    public Expression(String expr) {
+        this.expr = expr;
     }
 
-    public double evaluate() {
-        if (value == null) {
-            synchronized (Expression.class) {
-                if (value == null) {
-                    Token[] tokens = ExpressionTranslator.convertInfixToPostfix(expression);
-                    BinaryExpressionTree expTree = BinaryExpressionTree.from(tokens);
-                    value = expTree.evaluate();
-                }
-            }
-        }
-        return value;
+    public double getValue() {
+        boolean changed = value.compareAndSet(null, evaluate());
+        System.out.println(changed);
+        return value.get();
+    }
+
+    private double evaluate() {
+        Token[] tokens = ExpressionTranslator.convertInfixToPostfix(expr);
+        BinaryExpressionTree expTree = BinaryExpressionTree.from(tokens);
+        return expTree.evaluate();
     }
 }
