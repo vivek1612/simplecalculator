@@ -19,23 +19,12 @@ public enum FunctionOperation implements Operation {
     }
 
     public static boolean isSupported(String name) {
-        FunctionOperation[] functions = FunctionOperation.values();
-        for (FunctionOperation function : functions) {
-            if (name.equals(function.name)) {
-                return true;
-            }
+        try {
+            FunctionOperation.valueOf(name);
+            return true;
+        } catch (IllegalArgumentException e) {
+            return false;
         }
-        return false;
-    }
-
-    public static FunctionOperation getForName(String name) {
-        FunctionOperation[] functions = FunctionOperation.values();
-        for (FunctionOperation function : functions) {
-            if (name.equals(function.name)) {
-                return function;
-            }
-        }
-        throw new UnsupportedOperationException("no function found for name: " + name);
     }
 
     @Override

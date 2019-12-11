@@ -20,31 +20,35 @@ public class SimpleCalculator {
     private static final SimpleCalculator calc = new SimpleCalculator();
 
     public static void main(String[] args) {
-
         System.out.println(INIT_MSSG);
         String input;
         Scanner scanner = new Scanner(new InputStreamReader(System.in));
         do {
-            System.out.print(CMD_PROMT);
-            input = scanner.nextLine();
-            String expr = input.trim().toLowerCase();
-            switch (expr){
-                case CMD_QUIT:
-                    scanner.close();
-                    System.exit(0);
-                    break;
-                case CMD_HELP:
-                    System.out.println(HELP_MSSG);
-                    break;
-                default:
-                    try {
-                        double result = calc.calculate(input);
-                        System.out.println(result);
-                    } catch (Exception e) {
-                        System.err.println(e.getMessage());
-                    }
-            }
+            waitForInputAndPrintResult(scanner);
         } while (true);
+    }
+
+    private static void waitForInputAndPrintResult(Scanner scanner) {
+        String input;
+        System.out.print(CMD_PROMT);
+        input = scanner.nextLine();
+        String expr = input.trim().toLowerCase();
+        switch (expr){
+            case CMD_QUIT:
+                scanner.close();
+                System.exit(0);
+                break;
+            case CMD_HELP:
+                System.out.println(HELP_MSSG);
+                break;
+            default:
+                try {
+                    double result = calc.calculate(input);
+                    System.out.println(result);
+                } catch (Exception e) {
+                    System.err.println(e.getMessage());
+                }
+        }
     }
 
     private double calculate(String input) {

@@ -51,7 +51,7 @@ class BinaryExpressionTree {
                     stack.push(opTree);
                     break;
                 case FUNCTION:
-                    FunctionOperation func = FunctionOperation.getForName(token.getValue());
+                    FunctionOperation func = FunctionOperation.valueOf(token.getValue());
                     BinaryExpressionTree funcTree = new BinaryExpressionTree(0, func, stack.pop(), null);
                     stack.push(funcTree);
                     break;
