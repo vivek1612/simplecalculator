@@ -27,20 +27,22 @@ public class SimpleCalculator {
         do {
             System.out.print(CMD_PROMT);
             input = scanner.nextLine();
-            if (input.equalsIgnoreCase(CMD_QUIT)) {
-                scanner.close();
-                System.exit(0);
-            } else if (input.equalsIgnoreCase(CMD_HELP)) {
-                System.out.println(HELP_MSSG);
-                continue;
+            String expr = input.trim().toLowerCase();
+            switch (expr){
+                case CMD_QUIT:
+                    scanner.close();
+                    System.exit(0);
+                case CMD_HELP:
+                    System.out.println(HELP_MSSG);
+                    break;
+                default:
+                    try {
+                        double result = calc.calculate(input);
+                        System.out.println(result);
+                    } catch (Exception e) {
+                        System.err.println(e.getMessage());
+                    }
             }
-            try {
-                double result = calc.calculate(input);
-                System.out.println(result);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-
         } while (true);
     }
 

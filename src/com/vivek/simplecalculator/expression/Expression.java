@@ -14,8 +14,7 @@ public class Expression {
     }
 
     public double getValue() {
-        boolean changed = value.compareAndSet(null, evaluate());
-        System.out.println(changed);
+        value.compareAndSet(null, evaluate());
         return value.get();
     }
 
