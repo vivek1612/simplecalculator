@@ -32,6 +32,7 @@ public class SimpleCalculator {
                 case CMD_QUIT:
                     scanner.close();
                     System.exit(0);
+                    break;
                 case CMD_HELP:
                     System.out.println(HELP_MSSG);
                     break;

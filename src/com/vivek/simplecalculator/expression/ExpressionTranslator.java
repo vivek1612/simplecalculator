@@ -12,6 +12,8 @@ import java.util.concurrent.LinkedBlockingDeque;
 
 class ExpressionTranslator {
 
+    private ExpressionTranslator() {
+    }
 
     static Token[] convertInfixToPostfix(final String expression) {
         final Deque<Token> stack = new LinkedBlockingDeque<>();
@@ -28,35 +30,13 @@ class ExpressionTranslator {
                     stack.add(token);
                     break;
                 case OPERATOR:
-                    while (!stack.isEmpty() && stack.peek().getType() == TokenType.OPERATOR) {
-                        Token nextToken = stack.peek();
-                        ArithmeticOperation operation1 = ArithmeticOperation.getForSymbol(token.getValue().charAt(0));
-                        ArithmeticOperation operation2 = ArithmeticOperation.getForSymbol(nextToken.getValue().charAt(0));
-                        if (operation1.getNumOperands() == 1 && operation2.getNumOperands() == 2) {
-                            break;
-                        } else if ((operation1.isLeftAssociative() && operation1.getPrecedence() <= operation2.getPrecedence())
-                                || (operation1.getPrecedence() < operation2.getPrecedence())) {
-                            output.add(stack.pop());
-                        } else {
-                            break;
-                        }
-                    }
-                    stack.push(token);
+                    handleOperatorToken(stack, output, token);
                     break;
                 case LEFT_BRACKET:
                     stack.push(token);
                     break;
                 case RIGHT_BRACKET:
-                    while (!stack.isEmpty() && stack.peek().getType() != TokenType.LEFT_BRACKET) {
-                        output.add(stack.pop());
-                    }
-                    if (stack.isEmpty()) {
-                        throw new IllegalArgumentException("Mismatch in brackets");
-                    }
-                    stack.pop();
-                    if (!stack.isEmpty() && stack.peek().getType() == TokenType.FUNCTION) {
-                        output.add(stack.pop());
-                    }
+                    handleRightBracketToken(stack, output);
                     break;
                 default:
                     throw new IllegalArgumentException("Unrecognized token: " + token.getValue());
@@ -72,5 +52,33 @@ class ExpressionTranslator {
             }
         }
         return output.toArray(new Token[0]);
+    }
+
+    private static void handleRightBracketToken(Deque<Token> stack, List<Token> output) {
+        while (!stack.isEmpty() && stack.peek().getType() != TokenType.LEFT_BRACKET) {
+            output.add(stack.pop());
+        }
+        if (stack.isEmpty()) {
+            throw new IllegalArgumentException("Mismatch in brackets");
+        }
+        stack.pop();
+        if (!stack.isEmpty() && stack.peek().getType() == TokenType.FUNCTION) {
+            output.add(stack.pop());
+        }
+    }
+
+    private static void handleOperatorToken(Deque<Token> stack, List<Token> output, Token token) {
+        while (!stack.isEmpty() && stack.peek().getType() == TokenType.OPERATOR) {
+            Token nextToken = stack.peek();
+            ArithmeticOperation operation1 = ArithmeticOperation.getForSymbol(token.getValue().charAt(0));
+            ArithmeticOperation operation2 = ArithmeticOperation.getForSymbol(nextToken.getValue().charAt(0));
+            if ((operation1.isLeftAssociative() && operation1.getPrecedence() <= operation2.getPrecedence())
+                    || (operation1.getPrecedence() < operation2.getPrecedence())) {
+                output.add(stack.pop());
+            } else {
+                break;
+            }
+        }
+        stack.push(token);
     }
 }
