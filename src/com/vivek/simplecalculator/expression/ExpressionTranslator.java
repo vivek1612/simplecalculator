@@ -6,14 +6,15 @@ import com.vivek.simplecalculator.tokenizer.TokenType;
 import com.vivek.simplecalculator.tokenizer.Tokenizer;
 
 import java.util.ArrayList;
+import java.util.Deque;
 import java.util.List;
-import java.util.Stack;
+import java.util.concurrent.LinkedBlockingDeque;
 
 class ExpressionTranslator {
 
 
     static Token[] convertInfixToPostfix(final String expression) {
-        final Stack<Token> stack = new Stack<>();
+        final Deque<Token> stack = new LinkedBlockingDeque<>();
         final List<Token> output = new ArrayList<>();
 
         final Tokenizer tokenizer = new Tokenizer(expression);
@@ -27,7 +28,7 @@ class ExpressionTranslator {
                     stack.add(token);
                     break;
                 case OPERATOR:
-                    while (!stack.empty() && stack.peek().getType() == TokenType.OPERATOR) {
+                    while (!stack.isEmpty() && stack.peek().getType() == TokenType.OPERATOR) {
                         Token nextToken = stack.peek();
                         ArithmeticOperation operation1 = ArithmeticOperation.getForSymbol(token.getValue().charAt(0));
                         ArithmeticOperation operation2 = ArithmeticOperation.getForSymbol(nextToken.getValue().charAt(0));
@@ -62,7 +63,7 @@ class ExpressionTranslator {
             }
         }
 
-        while (!stack.empty()) {
+        while (!stack.isEmpty()) {
             Token t = stack.pop();
             if (t.getType() == TokenType.LEFT_BRACKET || t.getType() == TokenType.RIGHT_BRACKET) {
                 throw new IllegalArgumentException("Mismatch in brackets");
